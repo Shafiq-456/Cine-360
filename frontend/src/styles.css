@@ -1,0 +1,268 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg-main: #0a0d1a;
+  --bg-card: #0f1424;
+  --bg-card-hover: #151b30;
+  --bg-card-surface: #141b2e;
+  --accent-blue: #4f7cff;
+  --accent-blue-hover: #3d6ae8;
+  --accent-glow: rgba(79, 124, 255, 0.25);
+  --border-subtle: rgba(255, 255, 255, 0.07);
+  --border-focus: rgba(79, 124, 255, 0.5);
+  --text-main: #f8fafc;
+  --text-muted: #94a3b8;
+  --font-ui: "Inter", "Plus Jakarta Sans", system-ui, -apple-system, sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: var(--bg-main);
+  color: var(--text-main);
+  font-family: var(--font-ui);
+  min-height: 100vh;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #0a0d1a;
+}
+::-webkit-scrollbar-thumb {
+  background: #1e2640;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #334166;
+}
+
+/* Base Utility Classes */
+.cinema-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: 22px;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.cinema-card:hover {
+  border-color: rgba(79, 124, 255, 0.3);
+  box-shadow: 0 12px 32px -4px rgba(79, 124, 255, 0.12);
+}
+
+.btn-primary {
+  background: var(--accent-blue);
+  color: #ffffff;
+  font-weight: 600;
+  border-radius: 12px;
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 14px rgba(79, 124, 255, 0.35);
+}
+
+.btn-primary:hover {
+  background: var(--accent-blue-hover);
+  box-shadow: 0 6px 20px rgba(79, 124, 255, 0.5);
+  transform: translateY(-1px);
+}
+
+.btn-primary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.btn-ghost {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-main);
+  border-radius: 12px;
+  padding: 9px 18px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all 0.2s ease;
+}
+
+.btn-ghost:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.18);
+  color: #fff;
+}
+
+.btn-outline-blue {
+  background: transparent;
+  border: 1px solid rgba(79, 124, 255, 0.4);
+  color: var(--accent-blue);
+  border-radius: 12px;
+  padding: 8px 16px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s ease;
+}
+
+.btn-outline-blue:hover {
+  background: rgba(79, 124, 255, 0.1);
+  border-color: var(--accent-blue);
+  color: #ffffff;
+  box-shadow: 0 0 15px rgba(79, 124, 255, 0.25);
+}
+
+/* Movie Card Effects */
+.movie-card-container {
+  position: relative;
+  border-radius: 22px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  display: flex;
+  flex-direction: column;
+}
+
+.movie-card-container:hover {
+  transform: translateY(-6px);
+  border-color: rgba(79, 124, 255, 0.45);
+  box-shadow: 0 20px 40px -8px rgba(79, 124, 255, 0.2);
+}
+
+.movie-poster-wrapper {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 2 / 3;
+  overflow: hidden;
+  background: #12182b;
+}
+
+.movie-poster-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease, filter 0.35s ease;
+}
+
+.movie-card-container:hover .movie-poster-img {
+  transform: scale(1.05);
+  filter: blur(3px) brightness(0.35);
+}
+
+.movie-overlay-actions {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+  padding: 16px;
+  z-index: 10;
+}
+
+.movie-card-container:hover .movie-overlay-actions {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.movie-card-title {
+  color: var(--text-main);
+  transition: color 0.2s ease;
+}
+
+.movie-card-container:hover .movie-card-title {
+  color: var(--accent-blue);
+}
+
+/* 3D Canvas Stage Container */
+.theatre-viewport-container {
+  position: relative;
+  width: 100%;
+  height: 600px;
+  background: radial-gradient(circle at 50% 30%, #151b34 0%, #080a14 85%);
+  border-radius: 20px;
+  overflow: hidden;
+  border: 1px solid var(--border-subtle);
+}
+
+/* Modern Pill Tabs */
+.nav-pill-tab {
+  padding: 8px 18px;
+  border-radius: 9999px;
+  font-size: 13.5px;
+  font-weight: 500;
+  color: #94a3b8;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.nav-pill-tab:hover {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.nav-pill-tab.active {
+  background: #18223d;
+  color: #4f7cff;
+  font-weight: 600;
+  box-shadow: inset 0 0 0 1px rgba(79, 124, 255, 0.3);
+}
+
+/* Toast Message */
+.toast-notice {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  background: #141b2e;
+  border: 1px solid rgba(79, 124, 255, 0.4);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5);
+  border-radius: 14px;
+  padding: 14px 20px;
+  color: #fff;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  animation: slideIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes slideIn {
+  from { transform: translateY(20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+/* Pulse animation for live indicators */
+@keyframes pulse-subtle {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+.animate-pulse-subtle {
+  animation: pulse-subtle 2s infinite ease-in-out;
+}
